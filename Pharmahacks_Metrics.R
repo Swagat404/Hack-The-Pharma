@@ -1,19 +1,25 @@
-library(ggplot2)
+# Could implement both relative MSE and MAE for K_d and S_inhibitor
 
-# Could implement both MSE and MAE for K_d and S_inhibitor
-
-# MSE
-get_mse <- function(prediction_vector, true_vector) {
+# MSE: Relative MSE < 1 => Good
+get_rel_mse <- function(prediction_vector, true_vector) {
   num_predictions <- length(prediction_vector)
   mse <- sum((prediction_vector - true_vector)^2) / num_predictions
-  paste("MSE:", mse)
+  rel_mse <- mse / var(true_vector)
+  paste("Relative MSE:", rel_mse)
 }
 
-# MAE
+# MAE: Relative MAE < 1 => Model is better than the naive model
 get_mae <- function(prediction_vector, true_vector) {
   num_predictions <- length(prediction_vector)
   mae <- sum(abs(prediction_vector - true_vector)) / num_predictions
-  paste("MAE:", mae)
+  
+  # Naive model assumes that the previous value is the prediction for the 
+  # current time step
+  naive_forecast <- abs(diff(true_vector))
+  mae_naive <- mean(naive_forecast)
+  
+  rel_mae <- mae_model / mae_naive
+  paste("Relative MAE:", rel_mae)
 }
 
 
@@ -47,6 +53,3 @@ get_df_classify_inhibitors <- function() {
                                                 ifelse(S_inhib_(300) < S_threshold, "Medium",
                                                        "High")))
 }
-
-
-
