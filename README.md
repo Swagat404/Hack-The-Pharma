@@ -53,5 +53,5 @@ Rscript script_name.R
 ## 🚧 Future Improvements
 
 * Enhanced feature selection for better model accuracy
-* Automated hyperparameter tuning
-* Integration with external chemical databases for richer feature sets
+* Integration with external chemical databases to enrich available input data
+* Better script organization for testing calls
